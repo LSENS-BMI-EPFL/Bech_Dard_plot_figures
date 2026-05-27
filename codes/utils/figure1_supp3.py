@@ -11,6 +11,7 @@ import seaborn as sns
 from scipy.cluster.hierarchy import linkage, fcluster
 from scipy.spatial.distance import squareform
 from sklearn.metrics import balanced_accuracy_score
+from sklearn.preprocessing import LabelEncoder
 
 from codes.utils.figure1KL import BehavioralAnalysisGBM
 
@@ -70,13 +71,38 @@ def _plot_clustered_correlation(corr_matrix: pd.DataFrame, save_path: Path, savi
     plt.close(fig)
 
 
-def plot_figure1_supp3b(data_path: Path, saving_path: Path, name: str = 'Figure1_supp3B', saving_formats: list = ['png', 'svg']):
+def _prepare_features_for_correlation(X: pd.DataFrame) -> pd.DataFrame:
+    """Encode boolean and categorical columns for correlation computation."""
+    X_prep = X.copy()
+    bool_cols = X_prep.select_dtypes(include=['bool']).columns
+    X_prep[bool_cols] = X_prep[bool_cols].astype(int)
+    for col in X_prep.select_dtypes(include=['object']).columns:
+        le = LabelEncoder()
+        X_prep[col] = le.fit_transform(X_prep[col])
+    return X_prep
+
+
+def plot_figure1_supp3b(
+    load_dir: Path,
+    saving_path: Path,
+    name: str = 'Figure1_supp3B',
+    saving_formats: list = ['png', 'svg'],
+):
+    load_dir = Path(load_dir)
     saving_path = Path(saving_path)
     saving_path.mkdir(exist_ok=True, parents=True)
 
-    corr_matrix = pd.read_csv(data_path, index_col=0)
-    # _plot_correlation_matrix(corr_matrix, saving_path / name, saving_formats)
-    _plot_clustered_correlation(corr_matrix, saving_path / f'{name}', saving_formats)
+    analyzer, _ = BehavioralAnalysisGBM.load_results(load_dir)
+
+    X = pd.concat([analyzer.X_train, analyzer.X_test])
+    y = pd.concat([analyzer.y_train, analyzer.y_test])
+
+    X_prep = _prepare_features_for_correlation(X)
+    X_prep['Lick flag'] = y.values
+
+    corr_matrix = X_prep.corr()
+
+    _plot_clustered_correlation(corr_matrix, saving_path / name, saving_formats)
 
 
 def plot_figure1_supp3c(load_dir: Path, saving_path: Path, name: str = 'Figure1_supp3C', saving_formats: list = ['png', 'svg']):
