@@ -1,7 +1,7 @@
 # **Bech & Dard Figure panels reproduction**
-This repository allows the reproduction of figure panels in Bech, Dard et al. eLife (2026), starting from intermediate dataset.
+This repository allows the reproduction of figure panels in [Bech & Dard, eLife 2026](https://elifesciences.org/reviewed-preprints/109717), starting from intermediate dataset.
 
-Intermediate dataset can be downloaded from [zenodo](https://zenodo.org/communities/petersen-lab-data) or generated starting from NWB files using [process NWB](https://github.com/LSENS-BMI-EPFL/Bech_Dard_process_NWB).
+Intermediate dataset can be downloaded from [Zenodo](https://zenodo.org/communities/petersen-lab-data) or generated starting from NWB files using [process NWB repo](https://github.com/LSENS-BMI-EPFL/Bech_Dard_process_NWB).
 
 ## How to use
 
