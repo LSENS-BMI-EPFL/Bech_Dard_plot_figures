@@ -46,7 +46,7 @@ def preprocess_corr_results(file):
     return avg_df
 
 
-def Figure4_supp1_A(df, roi, save_path, vmin=-0.1, vmax=0.1):
+def Figure4_supp1_A(df, roi, main_save_path, save_path, vmin=-0.1, vmax=0.1):
     total_avg = df.groupby(by=['context', 'variable'])['value'].apply(lambda x: np.array(x.tolist()).mean(axis=0)).reset_index()
 
     seismic_palette = sns.diverging_palette(265, 10, s=100, l=40, sep=30, n=200, center="light", as_cmap=True)
@@ -117,6 +117,7 @@ def Figure4_supp1_A(df, roi, save_path, vmin=-0.1, vmax=0.1):
                          save_formats=[], figure=fig, ax_to_plot=ax[2])
 
     fig.savefig(os.path.join(save_path, f"{roi}_significant_pairs.png"))
+    fig.savefig(os.path.join(main_save_path, f"{roi}_significant_pairs.png"))
 
     plt.close('all')
 
@@ -870,9 +871,12 @@ def main(data, output_path):
 
         print(f"Plotting total averages for roi {roi}")
         save_path = os.path.join(output_path, 'figure4_supp1', 'figure4_supp1_A', roi)
+        main_save_path = os.path.join(output_path, 'figure4A_B', 'figure4', roi)
         if not os.path.exists(save_path):
             os.makedirs(save_path)
-        Figure4_supp1_A(total_avg.loc[total_avg.correct_trial==1], roi, save_path)
+        if not os.path.exists(main_save_path):
+            os.makedirs(main_save_path)
+        Figure4_supp1_A(total_avg.loc[total_avg.correct_trial==1], roi, main_save_path, save_path)
 
     Figure4_supp1_B_C(mouse_avg, output_path)
     Figure4_B(total_avg, os.path.join(output_path, 'figure4A_B'))

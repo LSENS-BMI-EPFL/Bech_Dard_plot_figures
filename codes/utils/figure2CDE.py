@@ -53,7 +53,7 @@ def figure2cde(data_table, trial_table, saving_path, supp_saving_path, saving_fo
             outcome = 'outcome_n'
             col = 0
 
-        row = 0 if 'rewarded' in name else 1
+        row = 0 if name[0] == 'rewarded' else 1
 
         group.rename(columns={'opto_grid_ml': 'x', 'opto_grid_ap': 'y'}, inplace=True)
         data_trial = trial_table.groupby(by=['context', 'trial_type']).get_group((0 if name[0] == 'non-rewarded' else 1, name[1]))
@@ -67,40 +67,41 @@ def figure2cde(data_table, trial_table, saving_path, supp_saving_path, saving_fo
         # CONTROL SUBTRACTED GRID
         fig, axes[row, col] = plot_grid_on_allen(group, outcome=f"data_mean_sub", palette=seismic_palette, facecolor=None,
                                                  edgecolor='black', vmin=-0.3,
-                                                 vmax=0.3, dotsize=250, fig=fig, ax=axes[row, col], result_path=None)
-        fig.tight_layout()
+                                                 vmax=0.3, dotsize=230, fig=fig, ax=axes[row, col], result_path=None)
 
         # D' FROM CONTROL SUBTRACTED GRID
         fig1, axes1[row, col] = plot_grid_on_allen(group, outcome="d_sub", palette=dprime_palette,
                                                    vmin=0.5, facecolor=None, edgecolor='black',
-                                                   vmax=2.2, dotsize=250, fig=fig1,
+                                                   vmax=2.2, dotsize=230, fig=fig1,
                                                    ax=axes1[row, col], result_path=None)
-        fig1.tight_layout()
 
         # RAW P LICK
         fig2, axes2[row, col] = plot_grid_on_allen(group, outcome="data_mean", palette='viridis',
                                                    vmin=0, facecolor=None, edgecolor='black',
-                                                   vmax=1, dotsize=250, fig=fig2,
+                                                   vmax=1, dotsize=230, fig=fig2,
                                                    ax=axes2[row, col], result_path=None)
-        fig2.tight_layout()
 
         # TRIAL DENSITY
         fig3, axes3[row, col] = plot_grid_on_allen(density_grid, outcome=outcome, palette='viridis',
                                                    vmin=0, facecolor=None, edgecolor='black',
                                                    vmax=90,
                                                    # vmax=0.8 * density_grid[outcome].max(),
-                                                   dotsize=250, fig=fig3,
+                                                   dotsize=230, fig=fig3,
                                                    ax=axes3[row, col], result_path=None)
-        fig3.tight_layout()
 
     cols = ['No stim', 'Auditory', 'Whisker']
-    rows = ['Rewarded', 'No rewarded']
+    rows_labels = ['W+', 'W-']
 
-    for axes in [axes, axes1]:
-        for a, col in zip(axes[0], cols):
+    for ax_grid in [axes, axes1, axes2, axes3]:
+        for a, col in zip(ax_grid[0], cols):
             a.set_title(col)
-        for a, row in zip(axes[:, 0], rows):
-            a.set_ylabel(row)
+
+    for panel in [fig, fig1, fig2, fig3]:
+            panel.tight_layout()
+            panel.subplots_adjust(left=0.1)
+            for i, row_label in enumerate(rows_labels):
+                panel.text(0.07, 0.75 - i * 0.5, row_label, va='center', rotation='vertical',
+                        fontsize=12, transform=panel.transFigure)
 
     names = ['Figure2CDE_delta_plick', 'Figure2CDE_dprime']
     supp_names = ['Figure2_supp1B', 'Figure2_supp1A']

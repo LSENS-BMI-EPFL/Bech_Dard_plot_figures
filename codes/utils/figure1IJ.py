@@ -150,7 +150,7 @@ def plot_baseline_differences(side_dlc_data, top_dlc_data, save_path, supp_save_
     fig, axes = plt.subplots(1, len(context_data.bodypart.unique()), figsize=(12, 3))
     for ax, part in zip(axes.flat, context_data.bodypart.unique()):
         subset = context_data[context_data.bodypart == part].dropna()
-        ax.set_title(f"{part} \nn = {stats.loc[(stats.bodypart == part), 'dof'].to_numpy()[0] + 1}")
+        ax.set_title(f"delta {part} \nn = {stats.loc[(stats.bodypart == part), 'dof'].to_numpy()[0] + 1}")
         ax.spines[['top', 'right']].set_visible(False)
         sns.pointplot(subset, x='context', y='value', hue='context', legend=False,
                       order=['non-rewarded', 'rewarded'], palette=['#6E188A', '#348A18'],
@@ -192,7 +192,7 @@ def plot_baseline_differences(side_dlc_data, top_dlc_data, save_path, supp_save_
     fig, axes = plt.subplots(1, len(lick_data.bodypart.unique()), figsize=(12, 3))
     for ax, part in zip(axes.flat, lick_data.bodypart.unique()):
         subset = lick_data[lick_data.bodypart == part].dropna()
-        ax.set_title(f"{part} \nn = {stats.loc[(stats.bodypart == part), 'dof'].to_numpy()[0] + 1}")
+        ax.set_title(f"delta {part} \nn = {stats.loc[(stats.bodypart == part), 'dof'].to_numpy()[0] + 1}")
         ax.spines[['top', 'right']].set_visible(False)
         sns.pointplot(subset, x='lick', y='value', hue='lick', legend=False,
                       order=[False, True], palette=['#a0a0a0', '#000000'],
@@ -264,7 +264,7 @@ def plot_baseline_differences(side_dlc_data, top_dlc_data, save_path, supp_save_
 
     fig, axes = plt.subplots(1, len(lick_vs_context_data.bodypart.unique()), figsize=(12, 3))
     for ax, part in zip(axes.flat, lick_vs_context_data.bodypart.unique()):
-        ax.set_title(f"{part} \nn = {stats.loc[(stats.bodypart == part), 'dof'].unique()[0] + 1}")
+        ax.set_title(f"delta {part} \nn = {stats.loc[(stats.bodypart == part), 'dof'].unique()[0] + 1}")
         ax.margins(x=0.25)
         ax.spines[['top', 'right']].set_visible(False)
 

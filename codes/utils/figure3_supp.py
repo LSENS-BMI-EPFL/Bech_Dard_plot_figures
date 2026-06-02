@@ -506,7 +506,14 @@ def dlc_psths(side_dlc, top_dlc, save_folder, name, formats=['png']):
         axes[0, 1].set_title('Whisker angle')
         axes[0, 2].set_title('Whisker speed')
 
-        fig.tight_layout()
+        rows_labels = ['Whisker trials', 'Auditory trials']
+
+        for panel in [fig]:
+                panel.tight_layout()
+                panel.subplots_adjust(left=0.1)
+                for i, row_label in enumerate(rows_labels):
+                    panel.text(0.02, 0.75 - i * 0.5, row_label, va='center', rotation='vertical',
+                            fontsize=12, transform=panel.transFigure)
 
         save_fig(fig, saving_path=save_folder, figure_name=f'{name}A', formats=formats)
 
@@ -580,7 +587,14 @@ def dlc_psths(side_dlc, top_dlc, save_folder, name, formats=['png']):
             ax.axhline(y=1, color='r', linestyle='--', alpha=0.3)
             ax.set_ylim(-1, 5)
 
-        fig.tight_layout()
+        rows_labels = ['Whisker trials', 'Auditory trials']
+
+        for panel in [fig]:
+                panel.tight_layout()
+                panel.subplots_adjust(left=0.1)
+                for i, row_label in enumerate(rows_labels):
+                    panel.text(0.02, 0.75 - i * 0.5, row_label, va='center', rotation='vertical',
+                            fontsize=12, transform=panel.transFigure)
 
         save_fig(fig, saving_path=save_folder, figure_name=f'{name}B', formats=formats)
 

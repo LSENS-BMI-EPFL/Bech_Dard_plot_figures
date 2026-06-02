@@ -52,7 +52,7 @@ def plot_figure2_supp1de(data_table, saving_path, saving_formats):
             outcome = 'outcome_n'
             col = 0
 
-        row = 0 if 'rewarded' in name else 1
+        row = 0 if name[0] == 'rewarded' else 1
 
         group.rename(columns={'opto_grid_ml': 'x', 'opto_grid_ap': 'y'}, inplace=True)
         fig, axes[row, col] = plot_grid_on_allen(group, outcome=f"data_mean_sub", palette=seismic_palette,
@@ -68,13 +68,19 @@ def plot_figure2_supp1de(data_table, saving_path, saving_formats):
         fig1.tight_layout()
 
     cols = ['No stim', 'Auditory', 'Whisker']
-    rows = ['Rewarded', 'No rewarded']
+    rows_labels = ['W+', 'W-']
 
-    for axes in [axes, axes1]:
-        for a, col in zip(axes[0], cols):
+    for ax_grid in [axes, axes1]:
+        for a, col in zip(ax_grid[0], cols):
             a.set_title(col)
-        for a, row in zip(axes[:, 0], rows):
-            a.set_ylabel(row)
+
+    for panel in [fig, fig1]:
+            panel.tight_layout()
+            panel.subplots_adjust(left=0.1)
+            for i, row_label in enumerate(rows_labels):
+                panel.text(0.07, 0.75 - i * 0.5, row_label, va='center', rotation='vertical',
+                        fontsize=12, transform=panel.transFigure)
+
 
     names = ['Figure2_supp1D', 'Figure2_supp1E']
     for idx, panel in enumerate([fig, fig1]):

@@ -363,7 +363,7 @@ def Figure4_F_G_map(avg_angle_df, result_path):
             fig, ax = plt.subplots(figsize=(4,4))
             im_df = generate_reduced_image_df(group.loc[group.pc==pc, 'angle_lick'].to_numpy()[np.newaxis, :], [eval(coord) for coord in group.loc[group.pc==pc, 'opto_stim_coord']])
             im_df = im_df.rename(columns={'dff0': 'angle'})
-            plot_grid_on_allen(im_df, outcome='angle', palette='viridis', facecolor=None, edgecolor=None, dotsize=440, result_path=None, vmin=0, vmax=10, fig=fig, ax=ax)
+            plot_grid_on_allen(im_df, outcome='angle', palette='viridis', facecolor=None, edgecolor=None, dotsize=350, result_path=None, vmin=0, vmax=10, fig=fig, ax=ax)
             ax.set_axis_off()
             fig.savefig(os.path.join(save_path, f'Figure4_{"F" if name=="rewarded" else "G"}_left.png'), dpi=400)
             plt.close('all')
@@ -406,7 +406,7 @@ def Figure4_supp2_BC(pca, result_path):
     for i in range(3):
         im_pca = generate_reduced_image_df(coeff[np.newaxis, :, i], [eval(label) for label in labels])
         im_pca.drop(im_pca[(im_pca.x==5.5)&(im_pca.y==2.5)].index, inplace=True)        
-        plot_grid_on_allen(im_pca, outcome='dff0', palette='seismic', facecolor=None, edgecolor=None, result_path=None, dotsize=340, vmin=-im_pca.dff0.abs().max(), vmax=im_pca.dff0.abs().max(), norm=None, fig=fig, ax= ax.flat[i])
+        plot_grid_on_allen(im_pca, outcome='dff0', palette='seismic', facecolor=None, edgecolor=None, result_path=None, dotsize=220, vmin=-im_pca.dff0.abs().max(), vmax=im_pca.dff0.abs().max(), norm=None, fig=fig, ax= ax.flat[i])
         ax.flat[i].set_axis_off()
         ax.flat[i].set_title(f"PC {i+1}")
     fig.savefig(os.path.join(result_path, f"Figure4_supp2_C.png"))
@@ -479,7 +479,7 @@ def Figure4_DG_supp2_BD(data_path, opto_data_path, output_path):
     scaler = StandardScaler()
     fit_scaler = scaler.fit(avg_data_for_pca)
     avg_data_for_pca = fit_scaler.transform(avg_data_for_pca)
-    pca = PCA(n_components=3)
+    pca = PCA(n_components=15)
     results = pca.fit(np.nan_to_num(avg_data_for_pca))
 
     # Enforce coefficient sign
