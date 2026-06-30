@@ -1,7 +1,7 @@
 # **Bech & Dard Figure panels reproduction**
 This repository allows the reproduction of figure panels in [Bech & Dard, eLife 2026](https://elifesciences.org/reviewed-preprints/109717), starting from intermediate dataset.
 
-Intermediate dataset can be downloaded from [Zenodo](https://zenodo.org/communities/petersen-lab-data) or generated starting from NWB files using [process NWB repo](https://github.com/LSENS-BMI-EPFL/Bech_Dard_process_NWB).
+Intermediate dataset can be downloaded from [Zenodo](https://doi.org/10.5281/zenodo.17424306) or generated starting from NWB files using [process NWB repo](https://github.com/LSENS-BMI-EPFL/Bech_Dard_process_NWB).
 
 ## How to use
 
@@ -13,7 +13,7 @@ conda env create -f bech_dard_plot_environment.yml
 conda activate bech_dard_plot
 ```
 
-**2. Clone the repo or download source code, then download the processed data folder from [Zenodo](https://zenodo.org/communities/petersen-lab-data)**
+**2. Clone the repo or download source code, then download the processed data folder from [Zenodo](https://doi.org/10.5281/zenodo.17424306)**
 
 Place them so the folder structure looks like this:
 
@@ -59,3 +59,6 @@ python -m codes.figure_files.figure3_supp4
 python -m codes.figure_files.figure3_supp5
 python -m codes.figure_files.figure4
 ```
+
+## Link to the main dataset
+This intermediate dataset results from the analyis of the NWB dataset that can be found on DANDI : [dataset DANDI:001847/0.260610.1400](https://doi.org/10.48324/dandi.001847/0.260610.1400) using the ['Bech, Dard, NWB process](https://github.com/LSENS-BMI-EPFL/Bech_Dard_process_NWB)
